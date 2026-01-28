@@ -348,6 +348,7 @@ input[type="text"],
 input[type="email"],
 input[type="password"],
 input[type="date"],
+input[type="number"],
 textarea {
   width: 100%;
   padding: 9px 10px;
@@ -393,11 +394,11 @@ textarea {
 }
 
 @media (max-width: 768px) {
-
   input[type="text"],
   input[type="email"],
   input[type="password"],
   input[type="date"],
+  input[type="number"],
   textarea {
     font-size: 16px;
   }

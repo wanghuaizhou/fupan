@@ -227,6 +227,8 @@
     const [myTrades, setMyTrades] = useState(editing ? editing.my_trades || "" : "");
     const [reflection, setReflection] = useState(editing ? editing.reflection || "" : "");
     const [plan, setPlan] = useState(editing ? editing.plan || "" : "");
+    const [returnPct, setReturnPct] = useState(editing != null && editing.return_pct != null ? String(editing.return_pct) : "");
+    const [returnValue, setReturnValue] = useState(editing != null && editing.return_value != null ? String(editing.return_value) : "");
     const [tags, setTags] = useState(editing ? editing.tags || [] : []);
     const [file, setFile] = useState(null);
     const [uploading, setUploading] = useState(false);
@@ -243,6 +245,8 @@
         setMyTrades(editing.my_trades || "");
         setReflection(editing.reflection || "");
         setPlan(editing.plan || "");
+        setReturnPct(editing.return_pct != null ? String(editing.return_pct) : "");
+        setReturnValue(editing.return_value != null ? String(editing.return_value) : "");
         setTags(editing.tags || []);
       } else {
         setDate(todayStr());
@@ -251,6 +255,8 @@
         setMyTrades("");
         setReflection("");
         setPlan("");
+        setReturnPct("");
+        setReturnValue("");
         setTags([]);
       }
       setFile(null);
@@ -303,7 +309,7 @@
         setError("请填写日期。");
         return;
       }
-      if (!title && !marketSummary && !myTrades && !reflection && !plan) {
+      if (!title && !marketSummary && !myTrades && !reflection && !plan && !returnPct.trim() && !returnValue.trim()) {
         setError("至少填写一项内容。");
         return;
       }
@@ -313,6 +319,8 @@
 
         // 先写入/更新复盘主记录
         let reviewId = editing ? editing.id : undefined;
+        const pct = returnPct.trim() ? parseFloat(returnPct) : null;
+        const val = returnValue.trim() ? parseFloat(returnValue) : null;
         let reviewPayload = {
           user_id: user.id,
           date,
@@ -322,6 +330,8 @@
           reflection: reflection || null,
           plan: plan || null,
           tags,
+          return_pct: pct != null && !Number.isNaN(pct) ? pct : null,
+          return_value: val != null && !Number.isNaN(val) ? val : null,
         };
 
         if (editing) {
@@ -369,12 +379,13 @@
         setFile(null);
         if (fileInputRef.current) fileInputRef.current.value = "";
         if (!editing) {
-          // 新建后重置
           setTitle("");
           setMarketSummary("");
           setMyTrades("");
           setReflection("");
           setPlan("");
+          setReturnPct("");
+          setReturnValue("");
           setTags([]);
         }
         onCreated({
@@ -545,6 +556,44 @@
         ),
         React.createElement(
           "div",
+          { className: "field-row" },
+          React.createElement(
+            "div",
+            { className: "field-group" },
+            React.createElement(
+              "label",
+              null,
+              "收益百分比",
+              React.createElement("span", { className: "hint" }, "例：5.2 即 +5.2%，可负")
+            ),
+            React.createElement("input", {
+              type: "number",
+              step: 0.01,
+              value: returnPct,
+              onChange: (e) => setReturnPct(e.target.value),
+              placeholder: "5.2",
+            })
+          ),
+          React.createElement(
+            "div",
+            { className: "field-group" },
+            React.createElement(
+              "label",
+              null,
+              "收益值",
+              React.createElement("span", { className: "hint" }, "元，可负")
+            ),
+            React.createElement("input", {
+              type: "number",
+              step: 0.01,
+              value: returnValue,
+              onChange: (e) => setReturnValue(e.target.value),
+              placeholder: "500",
+            })
+          )
+        ),
+        React.createElement(
+          "div",
           { className: "field-group" },
           React.createElement("label", null, "标签"),
           React.createElement(
@@ -697,8 +746,16 @@
       if (r.my_trades) parts.push("操作");
       if (r.reflection) parts.push("复盘");
       if (r.plan) parts.push("计划");
+      if (r.return_pct != null || r.return_value != null) parts.push("收益");
       if (!parts.length) return "未填写具体内容";
       return parts.join(" / ");
+    }
+
+    function formatReturn(r) {
+      const pct = r.return_pct != null ? (r.return_pct >= 0 ? "+" : "") + r.return_pct + "%" : null;
+      const val = r.return_value != null ? (r.return_value >= 0 ? "+" : "") + r.return_value + " 元" : null;
+      if (!pct && !val) return null;
+      return [pct, val].filter(Boolean).join("　");
     }
 
     return React.createElement(
@@ -794,11 +851,25 @@
                         tag
                       )
                     ),
-                    selectedPhotos.length
+                    formatReturn(r)
+                      ? React.createElement(
+                          "span",
+                          {
+                            className:
+                              "tag " +
+                              ((r.return_pct != null && r.return_pct >= 0) ||
+                              (r.return_value != null && r.return_value >= 0)
+                                ? "tag-positive"
+                                : "tag-negative"),
+                          },
+                          formatReturn(r)
+                        )
+                      : null,
+                    (photosByReviewId[r.id] || []).length
                       ? React.createElement(
                           "span",
                           { className: "tag" },
-                          `图${selectedPhotos.length}`
+                          `图${(photosByReviewId[r.id] || []).length}`
                         )
                       : null
                   )
@@ -874,6 +945,21 @@
                       selected.plan || "未填写"
                     )
                   ),
+                  formatReturn(selected) &&
+                    React.createElement(
+                      "div",
+                      { className: "detail-row" },
+                      React.createElement(
+                        "div",
+                        { className: "detail-row-label" },
+                        "收益"
+                      ),
+                      React.createElement(
+                        "div",
+                        { className: "detail-row-content" },
+                        formatReturn(selected)
+                      )
+                    ),
                   selectedPhotos.length
                     ? React.createElement(
                         "div",

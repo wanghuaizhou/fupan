@@ -145,8 +145,8 @@ python -m http.server 8080
 ## 四、功能说明
 
 - **账号**：邮箱 + 密码注册/登录，无需邮箱验证；同一账号多端数据一致。
-- **复盘内容**：日期、标题、大盘 & 热点、今日操作、得失复盘、明日计划；可选标签（追高、止损犹豫、情绪化操作、趋势跟随、低吸、打板等）及一张截图。
-- **历史**：按日期倒序列表，点某条查看详情、编辑。
+- **复盘内容**：日期、标题、大盘 & 热点、今日操作、得失复盘、明日计划；**收益百分比**（例：5.2 即 +5.2%）与**收益值**（元，可负）；可选标签（追高、止损犹豫、情绪化操作、趋势跟随、低吸、打板等）及一张截图。
+- **历史**：按日期倒序列表，点某条查看详情、编辑；列表与详情中会展示收益（百分比/值）。
 - **图片**：截图存于 Supabase Storage 的 `review-photos` 桶，复盘仅存 URL。
 
 ---
@@ -189,3 +189,8 @@ python -m http.server 8080
 
 - **保存复盘报 RLS / 权限错误**  
   确认已执行 `supabase-schema.sql`，且登录态正常；可退出后重新登录再试。
+
+- **已有 `reviews` 表，想用收益百分比 / 收益值**  
+  在 Supabase **SQL Editor** 中执行：  
+  `alter table public.reviews add column if not exists return_pct real;`  
+  `alter table public.reviews add column if not exists return_value real;`

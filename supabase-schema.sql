@@ -13,6 +13,8 @@ create table if not exists public.reviews (
   reflection text,
   plan text,
   tags text[] default '{}'::text[],
+  return_pct real,
+  return_value real,
   created_at timestamptz default now(),
   updated_at timestamptz default now()
 );
@@ -82,3 +84,6 @@ create policy "用户只能删除自己的图片"
   for delete
   using (auth.uid() = user_id);
 
+-- 若已创建过 reviews 表，可单独执行以下语句新增收益字段：
+-- alter table public.reviews add column if not exists return_pct real;
+-- alter table public.reviews add column if not exists return_value real;
