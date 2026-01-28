@@ -23,6 +23,5 @@ fs.writeFileSync(outPath, config, "utf8");
 console.log("已生成 supabase-config.js");
 
 if (!url || !anonKey) {
-  console.warn("警告: SUPABASE_URL 或 SUPABASE_ANON_KEY 未设置，部署后登录可能失败。");
-  process.exitCode = 1;
+  console.warn("警告: SUPABASE_URL 或 SUPABASE_ANON_KEY 未设置，部署后登录会失败。请在 Vercel 项目 Settings → Environment Variables 添加后 Redeploy。");
 }
