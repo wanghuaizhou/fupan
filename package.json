@@ -1,0 +1,16 @@
+{
+  "name": "stock-review-notes",
+  "version": "0.1.0",
+  "private": true,
+  "description": "一个基于 Supabase 的股市复盘笔记 Web 应用（纯静态，无打包工具）",
+  "scripts": {
+    "start": "echo \"请用 python -m http.server 8080 或部署后访问。\"",
+    "build": "node scripts/generate-config.js"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.48.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  }
+}
+
