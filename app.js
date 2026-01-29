@@ -79,6 +79,16 @@
     "复盘缺失",
   ];
 
+  // ---------- 复盘模板（按你的四张图） ----------
+
+  const TEMPLATE_GLOBAL = `【第一部分：全局数据分析（量化大环境）】\n\n这一部分训练你对“水位”和“冷暖”的感知。\n\n1）大盘量能\n- 今日成交额：_____ 亿\n- 较昨日增减：_____ 亿\n- 关键看点：量能是否“水位够不够”？缩量上涨往往走不远；放量滞涨/放量冲高回落要警惕出货。\n\n2）涨跌分布\n- 涨停数：____  / 跌停数：____\n- 上涨家数：____ / 下跌家数：____\n- 关键看点：涨停/跌停结构决定情绪强弱；跌停≥10（非 ST）代表市场极度恐慌，谨慎操作。\n\n3）北向 / 主力（可选）\n- 北向资金：净流入/出：____ 亿\n- 主力资金：净流入/出：____ 亿\n- 关键看点：外资（北向）偏长期偏好；内资主力更贴近短线热度。\n\n4）汇率与外盘\n- 人民币汇率：____\n- 纳指/道指/期指：涨/跌 ____\n- 关键看点：汇率贬值通常利空 A 股；美股期指大跌会影响明日开盘情绪。\n\n5）市场情绪（你自己的判断）\n- 今天情绪：冰点 / 修复 / 高潮 / 分歧\n- 直觉训练：昨天强分歧今天直接回杀（分歧转退潮）？还是昨天大跌今天直接反包（修复）？\n\n【一句话结论】\n- 今天的“水位”是：________\n- 今天的“冷暖”是：________\n`;
+
+  const TEMPLATE_STRUCTURE = `【第二部分：结构与主线（看懂资金流向）】\n\n这一部分训练你“风口”的捕捉能力，不要写流水账，要写逻辑。\n\n1）今日最强主线（题材/板块）：________\n- 驱动逻辑（例：昨晚发改委发文支持低空经济 / 英伟达股价大涨映射）：________\n- 龙头股表现：\n  - 龙头是否没有封死涨停？一字板还是换手板？________\n  - 梯队完整度：有没有跟风股？如果只有龙头涨，跟风全跌，说明板块不可持续。________\n\n2）资金都在做什么（避雷区）：________\n- 原因（业绩暴雷？涨多了获利了结？政策打压？）：________\n\n3）风格切换（重要）\n- 今天风格是：大票（白线）强 / 小票（黄线）强？________\n- 今天风格是：赛道成长（如新能源）强 还是 红利防守（如银行煤炭）强？________\n\n【一句话结论】\n- 今天资金的“主战场”是：________\n- 明天我应该顺着谁走：________\n`;
+
+  const TEMPLATE_STOCKS = `【第三部分：个股与操作（灵魂拷问）】\n\n这部分最痛苦，但成长最快。要像外科医生一样解剖自己的交易。\n\n1）持仓体验\n- 标的 A：盈亏 ____%  状态：站上 5 日线（强）/ 跌破 20 日线（弱）  备注：________\n- 标的 B：盈亏 ____%  状态：缩量盘整 / 放量突破  备注：________\n\n2）今日操作回顾\n- 买入理由复盘：当时为什么买？如果现在重来一次、同样的 K 线图，我还会买吗？________\n  - 如果是“冲动追高”，请用红字标出来警告自己：________\n- 卖出理由复盘：是因为触发止损线，还是单纯因为“拿不住”？________\n\n3）情绪监控\n- 交易时心跳加速了吗？（如果有，说明仓位过重）________\n- 收盘后的感受：后悔 / 平静 / 亢奋 / 麻木？________\n\n【一句话结论】\n- 今天做得最对的一件事：________\n- 今天犯的最大错误：________\n- 明天必须改掉：________\n`;
+
+  const TEMPLATE_TOMORROW = `【第四部分：明天推演与计划（决胜在盘后）】\n\n不做预案，开盘就是赌博。\n\n1）明日大盘剧本推演\n- 乐观剧本：如果明天大盘突破 3000 点，主线板块继续强势，我应当：________（加仓/持股/只做最强）\n- 悲观剧本：如果明天低开低走，跌破今日低点，我应当：________（减仓/清仓/观望）\n\n2）核心标的监控（自选股）\n- 关注股票 A：如果回调到 ____ 元不破，可尝试低吸。理由：________\n- 关注股票 B：如果冲高到 ____ 元且能跟上，必须止盈/止损。理由：________\n\n3）仓位与纪律\n- 明日目标仓位：____ 成\n- 禁止项（写得越具体越好）：\n  - 禁止追当天高点\n  - 禁止无止损买入\n  - 禁止情绪化加仓\n\n【一句话结论】\n- 明天我的“唯一目标”：________\n`;
+
   // ---------- 认证组件 ----------
 
   function AuthView({ onAuth }) {
@@ -251,10 +261,10 @@
       } else {
         setDate(todayStr());
         setTitle("");
-        setMarketSummary("");
-        setMyTrades("");
-        setReflection("");
-        setPlan("");
+        setMarketSummary(TEMPLATE_GLOBAL);
+        setMyTrades(TEMPLATE_STOCKS);
+        setReflection(TEMPLATE_STRUCTURE);
+        setPlan(TEMPLATE_TOMORROW);
         setReturnPct("");
         setReturnValue("");
         setTags([]);
@@ -480,18 +490,18 @@
           React.createElement(
             "label",
             null,
-            "大盘 & 热点",
+            "第一步：全局数据分析",
             React.createElement(
               "span",
               { className: "hint" },
-              "指数、情绪、主线、龙头"
+              "按模板填空，最后写一句话结论"
             )
           ),
           React.createElement("textarea", {
             value: marketSummary,
             onChange: (e) => setMarketSummary(e.target.value),
             placeholder:
-              "例：三大指数冲高回落，情绪分歧加大，机器人、高股息表现强势……",
+              "按你的模板填写全局数据分析（量能/涨跌分布/资金/外盘/情绪）……",
           })
         ),
         React.createElement(
@@ -500,18 +510,18 @@
           React.createElement(
             "label",
             null,
-            "今日操作",
+            "第三步：个股与操作",
             React.createElement(
               "span",
               { className: "hint" },
-              "买卖点、逻辑、是否遵守计划"
+              "持仓体验 / 买卖复盘 / 情绪监控"
             )
           ),
           React.createElement("textarea", {
             value: myTrades,
             onChange: (e) => setMyTrades(e.target.value),
             placeholder:
-              "例：早盘按计划低吸 XX，午后情绪化追高 YY，未设置止损……",
+              "按模板填写个股与操作复盘……",
           })
         ),
         React.createElement(
@@ -520,18 +530,18 @@
           React.createElement(
             "label",
             null,
-            "得失复盘",
+            "第二步：结构与主线",
             React.createElement(
               "span",
               { className: "hint" },
-              "今天最大的 1-2 个问题 / 收获"
+              "主线、梯队、资金风格切换"
             )
           ),
           React.createElement("textarea", {
             value: reflection,
             onChange: (e) => setReflection(e.target.value),
             placeholder:
-              "例：情绪化交易再一次出现；没有完全按照仓位计划执行；对主线理解更清晰……",
+              "按模板填写结构与主线……",
           })
         ),
         React.createElement(
@@ -540,18 +550,18 @@
           React.createElement(
             "label",
             null,
-            "明日计划",
+            "第四步：明天推演与计划",
             React.createElement(
               "span",
               { className: "hint" },
-              "仓位安排、关注标的、禁止项"
+              "剧本推演 / 核心标的监控 / 仓位纪律"
             )
           ),
           React.createElement("textarea", {
             value: plan,
             onChange: (e) => setPlan(e.target.value),
             placeholder:
-              "例：控制仓位不超过 5 成；只做主线回调低吸；禁止追当天涨停板……",
+              "按模板填写明日推演与计划……",
           })
         ),
         React.createElement(
@@ -742,10 +752,10 @@
 
     function summaryLine(r) {
       const parts = [];
-      if (r.market_summary) parts.push("盘面");
-      if (r.my_trades) parts.push("操作");
-      if (r.reflection) parts.push("复盘");
-      if (r.plan) parts.push("计划");
+      if (r.market_summary) parts.push("全局");
+      if (r.reflection) parts.push("主线");
+      if (r.my_trades) parts.push("个股");
+      if (r.plan) parts.push("推演");
       if (r.return_pct != null || r.return_value != null) parts.push("收益");
       if (!parts.length) return "未填写具体内容";
       return parts.join(" / ");
@@ -757,6 +767,83 @@
       if (!pct && !val) return null;
       return [pct, val].filter(Boolean).join("　");
     }
+
+    function calcTotalReturnValue(list) {
+      const sum = (list || []).reduce((acc, r) => acc + (Number(r.return_value) || 0), 0);
+      const rounded = Math.round(sum * 100) / 100;
+      return rounded;
+    }
+
+    function buildPctSeries(list) {
+      // 按日期升序画曲线（收益率可能为空，过滤掉）
+      const items = (list || [])
+        .filter((r) => r && r.date && r.return_pct != null && !Number.isNaN(Number(r.return_pct)))
+        .slice()
+        .sort((a, b) => String(a.date).localeCompare(String(b.date)));
+      return items.map((r) => ({
+        date: r.date,
+        v: Number(r.return_pct),
+      }));
+    }
+
+    function Sparkline({ points }) {
+      const w = 520;
+      const h = 90;
+      if (!points || points.length < 2) {
+        return React.createElement(
+          "div",
+          { className: "spark-empty" },
+          "收益率曲线：记录满 2 天且填写了收益百分比后自动生成"
+        );
+      }
+
+      const vals = points.map((p) => p.v);
+      const min = Math.min(...vals);
+      const max = Math.max(...vals);
+      const padX = 8;
+      const padY = 10;
+      const innerW = w - padX * 2;
+      const innerH = h - padY * 2;
+      const span = max - min || 1;
+
+      const xy = points.map((p, i) => {
+        const x = padX + (innerW * i) / (points.length - 1);
+        const y = padY + innerH - ((p.v - min) / span) * innerH;
+        return { x, y };
+      });
+
+      const d = xy
+        .map((p, i) => (i === 0 ? `M ${p.x.toFixed(2)} ${p.y.toFixed(2)}` : `L ${p.x.toFixed(2)} ${p.y.toFixed(2)}`))
+        .join(" ");
+
+      const last = points[points.length - 1];
+      const lastText = (last.v >= 0 ? "+" : "") + last.v + "%";
+
+      return React.createElement(
+        "div",
+        { className: "spark-wrap" },
+        React.createElement(
+          "div",
+          { className: "spark-head" },
+          React.createElement("div", { className: "spark-title" }, "收益率曲线"),
+          React.createElement("div", { className: "spark-meta" }, `最新：${last.date}　${lastText}`)
+        ),
+        React.createElement(
+          "svg",
+          { className: "spark", viewBox: `0 0 ${w} ${h}`, preserveAspectRatio: "none" },
+          React.createElement("path", { d, className: "spark-line" }),
+          React.createElement("circle", {
+            cx: xy[xy.length - 1].x,
+            cy: xy[xy.length - 1].y,
+            r: 3.5,
+            className: "spark-dot",
+          })
+        )
+      );
+    }
+
+    const totalReturnValue = useMemo(() => calcTotalReturnValue(reviews), [reviews]);
+    const pctSeries = useMemo(() => buildPctSeries(reviews), [reviews]);
 
     return React.createElement(
       "div",
@@ -779,6 +866,11 @@
           { className: "pill" },
           reviews.length ? `共 ${reviews.length} 天` : "暂无记录"
         )
+      ),
+      React.createElement(
+        "div",
+        { className: "spark-card" },
+        React.createElement(Sparkline, { points: pctSeries })
       ),
       loading &&
         React.createElement(
@@ -895,7 +987,7 @@
                     React.createElement(
                       "div",
                       { className: "detail-row-label" },
-                      "大盘 & 热点"
+                      "第一步：全局数据分析"
                     ),
                     React.createElement(
                       "div",
@@ -909,7 +1001,7 @@
                     React.createElement(
                       "div",
                       { className: "detail-row-label" },
-                      "今日操作"
+                      "第三步：个股与操作"
                     ),
                     React.createElement(
                       "div",
@@ -923,7 +1015,7 @@
                     React.createElement(
                       "div",
                       { className: "detail-row-label" },
-                      "得失复盘"
+                      "第二步：结构与主线"
                     ),
                     React.createElement(
                       "div",
@@ -937,7 +1029,7 @@
                     React.createElement(
                       "div",
                       { className: "detail-row-label" },
-                      "明日计划"
+                      "第四步：明天推演与计划"
                     ),
                     React.createElement(
                       "div",
@@ -1173,6 +1265,21 @@
         React.createElement(
           "div",
           { className: "header-actions" },
+          React.createElement(
+            "div",
+            { className: "summary-chip" },
+            React.createElement("div", { className: "summary-label" }, "累计收益"),
+            React.createElement(
+              "div",
+              { className: "summary-value" },
+              (() => {
+                const sum = reviews.reduce((acc, r) => acc + (Number(r.return_value) || 0), 0);
+                const rounded = Math.round(sum * 100) / 100;
+                const text = (rounded >= 0 ? "+" : "") + rounded + " 元";
+                return text;
+              })()
+            )
+          ),
           React.createElement(
             "div",
             { className: "user-chip" },
