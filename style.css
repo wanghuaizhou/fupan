@@ -462,6 +462,10 @@ textarea {
   resize: vertical;
 }
 
+.review-textarea {
+  min-height: 144px; /* 输入区域高度提高两倍 */
+}
+
 .field-row {
   display: flex;
   gap: 8px;

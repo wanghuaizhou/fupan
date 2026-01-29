@@ -498,6 +498,7 @@
             )
           ),
           React.createElement("textarea", {
+            className: "review-textarea",
             value: marketSummary,
             onChange: (e) => setMarketSummary(e.target.value),
             placeholder:
@@ -518,6 +519,7 @@
             )
           ),
           React.createElement("textarea", {
+            className: "review-textarea",
             value: myTrades,
             onChange: (e) => setMyTrades(e.target.value),
             placeholder:
@@ -538,6 +540,7 @@
             )
           ),
           React.createElement("textarea", {
+            className: "review-textarea",
             value: reflection,
             onChange: (e) => setReflection(e.target.value),
             placeholder:
@@ -558,6 +561,7 @@
             )
           ),
           React.createElement("textarea", {
+            className: "review-textarea",
             value: plan,
             onChange: (e) => setPlan(e.target.value),
             placeholder:
